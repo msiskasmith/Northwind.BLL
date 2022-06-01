@@ -18,7 +18,9 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(ProductCategory productCategory)
         {
-            var isFound = await _unitOfWork.ProductCategories.AnyAsync(c => c.ProductCategoryName.ToLower() == productCategory.ProductCategoryName.ToLower());
+            productCategory.ProductCategoryName = StringManipulator.RemoveExtraSpaces(productCategory.ProductCategoryName);
+
+            var isFound = await _unitOfWork.ProductCategories.AnyAsync(p => p.ProductCategoryName.ToLower() == productCategory.ProductCategoryName.ToLower());
 
             if (isFound)
             {
@@ -41,7 +43,7 @@ namespace Northwind.BLL.Services
         public async Task<ProcessedResponse> GetAsync(short productCategoryId)
         {
                  
-            var productCategory = await _unitOfWork.ProductCategories.GetAsync(c => c.ProductCategoryId == productCategoryId);
+            var productCategory = await _unitOfWork.ProductCategories.GetAsync(p => p.ProductCategoryId == productCategoryId);
 
             if (productCategory == null) return ResponseProcessor.GetRecordNotFoundResponse();
 
@@ -75,6 +77,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(ProductCategory productCategory)
         {
+            productCategory.ProductCategoryName = StringManipulator.RemoveExtraSpaces(productCategory.ProductCategoryName);
+
             var unChangedProductCategory = await _unitOfWork.ProductCategories
                     .GetAsync(p => p.ProductCategoryId == productCategory.ProductCategoryId);
 
@@ -108,7 +112,7 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> DeleteAsync(short productCategoryId)
         {
-            var productCategory = await _unitOfWork.ProductCategories.GetAsync(c => c.ProductCategoryId == productCategoryId);
+            var productCategory = await _unitOfWork.ProductCategories.GetAsync(p => p.ProductCategoryId == productCategoryId);
 
             if (productCategory is not null)
             {

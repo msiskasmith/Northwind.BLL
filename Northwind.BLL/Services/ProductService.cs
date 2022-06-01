@@ -18,6 +18,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(Product product)
         {
+            product.ProductName = StringManipulator.RemoveExtraSpaces(product.ProductName);
+
             var isFound = await _unitOfWork.Products.AnyAsync(
                 p => p.ProductName.ToLower() == product.ProductName.ToLower());
 
@@ -75,6 +77,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(Product product)
         {
+            product.ProductName = StringManipulator.RemoveExtraSpaces(product.ProductName);
+
             var unChangedProduct = await _unitOfWork.Products.GetAsync(c => c.ProductId == product.ProductId);
 
             if (unChangedProduct is not null)

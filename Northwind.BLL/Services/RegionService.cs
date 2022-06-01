@@ -21,6 +21,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(Region region)
         {
+            region.RegionDescription = StringManipulator.RemoveExtraSpaces(region.RegionDescription);
+
             var isFound = await _unitOfWork.Regions.AnyAsync(
                 r => r.RegionDescription.ToLower() == region.RegionDescription.ToLower());
 
@@ -79,6 +81,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(Region region)
         {
+            region.RegionDescription = StringManipulator.RemoveExtraSpaces(region.RegionDescription);
+
             var unChangedRegion = await _unitOfWork.Regions.GetAsync(r => r.RegionId == region.RegionId);
 
             if (unChangedRegion is not null)

@@ -21,6 +21,9 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(Employee employee)
         {
+            employee.EmployeeFirstName = StringManipulator.RemoveExtraSpaces(employee.EmployeeFirstName);
+            employee.EmployeeLastName = StringManipulator.RemoveExtraSpaces(employee.EmployeeLastName);
+
             var isFound = await _unitOfWork.Employees
                 .AnyAsync(e => e.EmployeeFirstName.ToLower() == employee.EmployeeFirstName.ToLower() && e.EmployeeLastName.ToLower() == employee.EmployeeLastName.ToLower());
 
@@ -75,6 +78,9 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(Employee employee)
         {
+            employee.EmployeeFirstName = StringManipulator.RemoveExtraSpaces(employee.EmployeeFirstName);
+            employee.EmployeeLastName = StringManipulator.RemoveExtraSpaces(employee.EmployeeLastName);
+
             var unChangedEmployee = await _unitOfWork.Employees.GetAsync(e => e.EmployeeId == employee.EmployeeId);
 
             

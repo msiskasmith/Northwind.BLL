@@ -21,6 +21,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(Shipper shipper)
         {
+            shipper.ShipperName = StringManipulator.RemoveExtraSpaces(shipper.ShipperName);
+
             var isFound = await _unitOfWork.Shippers.AnyAsync(
                 s => s.ShipperName.ToLower() == shipper.ShipperName.ToLower());
 
@@ -77,6 +79,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(Shipper shipper)
         {
+            shipper.ShipperName = StringManipulator.RemoveExtraSpaces(shipper.ShipperName);
+
             var unChangedShipper = await _unitOfWork.Shippers.GetAsync(
                 s => s.ShipperId == shipper.ShipperId);
 

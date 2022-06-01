@@ -4,8 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>Smith Msiska</Company>
-    <Description>Business Logic Layer for Northwind</Description>
-    <Version>1.1.8</Version>
+    <Description>Added String Manipulation to remove extra spaces</Description>
+    <Version>1.2.0</Version>
     <PackageReleaseNotes>Made changes to Order and Order Details Service Classes</PackageReleaseNotes>
   </PropertyGroup>
 

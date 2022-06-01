@@ -2,11 +2,7 @@
 using Northwind.DAL.EFModels;
 using Northwind.DAL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.ExceptionServices;
 using System.Linq.Expressions;
 
 namespace Northwind.BLL.Services
@@ -22,6 +18,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> AddAsync(Customer customer)
         {
+            customer.CustomerName = StringManipulator.RemoveExtraSpaces(customer.CustomerName);
+
             var isFound = await _unitOfWork.Customers
                 .AnyAsync(c => c.CustomerName.ToLower() == customer.CustomerName.ToLower());
 
@@ -75,6 +73,8 @@ namespace Northwind.BLL.Services
 
         public async Task<ProcessedResponse> UpdateAsync(Customer customer)
         {
+            customer.CustomerName = StringManipulator.RemoveExtraSpaces(customer.CustomerName);
+
             var unChangedCustomer = await _unitOfWork.Customers.GetAsync(c => c.CustomerId == customer.CustomerId);
 
             if (unChangedCustomer is not null)
